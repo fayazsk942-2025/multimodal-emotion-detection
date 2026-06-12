@@ -190,7 +190,7 @@ Sad emotion detected from audio input.
 Please consider immediate attention or support.
 """,
         from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=['agalyaspiro25@gmail.com'],
+        recipient_list=['fayazsk20839@gmail.com'],
         fail_silently=False,
     )
 
