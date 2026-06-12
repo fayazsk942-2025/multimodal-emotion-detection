@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ prediction | upper }} Classification</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Background image overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://thumbs.dreamstime.com/b/collage-portraits-young-people-multicolored-background-neon-collage-portraits-young-emotional-people-175302160.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.7;
+            z-index: -2;
+        }
+
+        /* Additional gradient overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.4), rgba(118, 75, 162, 0.4));
+            z-index: -1;
+        }
+
+        .bg-custom {
+            background: transparent;
+        }
+
+        .card-image {
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Enhanced Glass morphism effect for cards with more transparency */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Text colors for better readability on transparent background */
+        .glass-card h2, 
+        .glass-card h3, 
+        .glass-card h4 {
+            color: #1e293b;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-card p, 
+        .glass-card strong {
+            color: #1e293b;
+        }
+
+        .text-indigo-600 {
+            color: #4f46e5;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Recommendation items with transparency */
+        .recommendation-item {
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            border-left: 4px solid #4f46e5;
+            transition: all 0.3s ease;
+            color: #1e293b;
+        }
+
+        .recommendation-item:hover {
+            transform: translateX(8px);
+            background: rgba(255, 255, 255, 0.35);
+            border-left-color: #7c3aed;
+        }
+
+        .suggestion-icon {
+            color: #4f46e5;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Audio player styling for transparent background */
+        audio {
+            width: 100%;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        audio::-webkit-media-controls-panel {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+        }
+
+        /* Grid layout for health recommendations */
+        .health-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .health-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .health-card:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .health-card h4 {
+            color: #4f46e5;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .health-card p {
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Video container styling */
+        .video-container {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        iframe {
+            width: 100%;
+            height: 315px;
+            border: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 20px !important;
+            }
+            
+            .recommendation-item {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            iframe {
+                height: 200px;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+
+        /* Animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glass-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Button hover effects */
+        .btn-suggestion {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-suggestion:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+
+<body class="bg-custom text-gray-800">
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- Classification Card -->
+        <div class="glass-card p-6 md:p-8 mb-6">
+            <div class="flex flex-col md:flex-row items-start">
+                <div class="md:w-1/3 mb-4 md:mb-0">
+                    <audio controls class="w-full rounded-lg shadow-md">
+                        <source src="{{ audio_file.audio_file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                <div class="md:w-2/3 md:pl-6">
+                    <h2 class="text-3xl font-bold mb-4 text-indigo-600">{{ prediction | upper }} Classification</h2>
+                    <h3 class="text-xl font-semibold mb-2">Description</h3>
+                    <p class="mb-4">
+                        {% if prediction == 'Angry' %}
+                        <img src="data:image/jpeg;base64,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" alt="Anger" class="card-image mb-4">
+                        <strong>Anger:</strong> Anger is a powerful emotion that can stem from frustration, perceived injustice, or feeling threatened. It's important to recognize anger early and channel it constructively.
+                        <br><br>
+                        <strong>Body Condition:</strong> Increased heart rate, muscle tension, and adrenaline. <br>
+                        <strong>Recommendations:</strong> Practice deep breathing exercises, engage in physical activity, and avoid situations that may exacerbate anger. Consider journaling or talking to a trusted friend to process your emotions.
+                        
+                        <!-- Anger Specific Suggestions -->
+                        <div class="mt-4">
+                            <strong class="text-indigo-600">✨ Quick Suggestions for You:</strong>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🧘</i> Take 10 deep breaths - inhale for 4 seconds, hold for 4, exhale for 4
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🏃</i> Go for a brisk walk or run to release pent-up energy
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🎵</i> Listen to calming music or nature sounds
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">📝</i> Write down what's bothering you, then tear up the paper
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">💧</i> Drink a glass of cold water slowly to cool down
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🗣️</i> Talk to a trusted friend or family member about your feelings
+                            </div>
+                        </div>
+                        
+                        {% elif prediction == 'Fear' %}
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkQrGovaz8T2lo34sv8Ao33C095SxMEMnJJA&shttps://example.com/fearful-image.jpg" alt="Fear" class="card-image mb-4">
+                        <strong>Fear:</strong> Fear is a response to real or perceived threats, often leading to a fight-or-flight reaction. Addressing the root cause of fear is crucial for managing it effectively.
+                        <br><br>
+                        <strong>Body Condition:</strong> Heightened alertness, increased heart rate, and adrenaline surge. <br>
+                        <strong>Recommendations:</strong> Utilize relaxation techniques like deep breathing or progressive muscle relaxation. If fear is overwhelming, seek support from a mental health professional. Grounding exercises can also help to reduce anxiety.
+                        
+                        <!-- Fear Specific Suggestions -->
+                        <div class="mt-4">
+                            <strong class="text-indigo-600">✨ Quick Suggestions for You:</strong>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🌿</i> Practice the 5-4-3-2-1 grounding technique: Find 5 things you see, 4 you touch, 3 you hear, 2 you smell, 1 you taste
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🕯️</i> Light a scented candle or use essential oils like lavender
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">📞</i> Call a close friend or family member for reassurance
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🎬</i> Watch a comforting movie or show you love
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🧸</i> Wrap yourself in a warm blanket - it provides comfort and security
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">📖</i> Read an inspiring or uplifting book
+                            </div>
+                        </div>
+                        
+                        {% elif prediction == 'Happy' %}
+                        <img src="data:image/jpeg;base64,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" alt="Happiness" class="card-image mb-4">
+                        <strong>Happiness:</strong> Happiness reflects a state of joy, satisfaction, and well-being. It is often associated with positive experiences and emotional fulfillment.
+                        <br><br>
+                        <strong>Body Condition:</strong> High energy levels, stable mood, and a positive outlook. <br>
+                        <strong>Recommendations:</strong> Continue engaging in activities that bring joy and satisfaction. Share positive experiences with others to strengthen social connections and maintain a balanced lifestyle.
+                        
+                        <!-- Happy Specific Suggestions -->
+                        <div class="mt-4">
+                            <strong class="text-indigo-600">✨ Quick Suggestions for You:</strong>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🎬</i> Go watch a new movie with friends or family today!
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🍕</i> Treat yourself to your favorite meal or dessert
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">👥</i> Plan an outing with friends - go to a park, cafe, or shopping
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🏠</i> Take a relaxing day off from work and enjoy quality time at home
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">📸</i> Capture happy moments - take photos or start a joy journal
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🎁</i> Spread happiness by surprising someone with a small gift or kind message
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🎨</i> Pursue a hobby you love - painting, dancing, cooking, or music
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🌅</i> Watch a beautiful sunrise or sunset to appreciate the moment
+                            </div>
+                        </div>
+                        
+                        {% elif prediction == 'Sad' %}
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9kEpZAgiIPHmH8frpd4WuGFdVQ-lbDdwAvA&s" alt="Sadness" class="card-image mb-4">
+                        <strong>Sadness:</strong> Sadness is a natural response to loss, disappointment, or difficult situations. It often involves a sense of heaviness and introspection.
+                        <br><br>
+                        <strong>Body Condition:</strong> Low energy levels, tearfulness, and a feeling of emptiness. <br>
+                        <strong>Recommendations:</strong> Allow yourself to process your emotions by expressing them through talking, writing, or creative outlets. Engage in self-care activities like spending time in nature, practicing mindfulness, or seeking comfort from loved ones.
+                        
+                        <!-- Sad Specific Suggestions -->
+                        <div class="mt-4">
+                            <strong class="text-indigo-600">✨ Quick Suggestions for You:</strong>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">📞</i> Call or video chat with a close friend or family member today
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🚶</i> Go for a peaceful walk in a park or nature trail
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🎵</i> Listen to uplifting music or watch a comedy show
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">📝</i> Write down your feelings in a journal - it helps to release emotions
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🛁</i> Take a warm bath or shower and practice self-care
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🍵</i> Make yourself a warm cup of tea or hot chocolate
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🐱</i> Spend time with a pet or watch cute animal videos
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">💤</i> Get extra rest - sometimes sleep helps heal emotional pain
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🤗</i> Reach out for a hug from someone you trust
+                            </div>
+                            <div class="recommendation-item">
+                                <i class="suggestion-icon">🎬</i> Watch your favorite feel-good movie or TV show
+                            </div>
+                        </div>
+                        
+                        {% else %}
+                        <strong>Classification:</strong> Not recognized.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health and Activity Recommendations -->
+        <div class="glass-card p-6 md:p-8 mb-6">
+            <h3 class="text-xl font-semibold mb-4">Health and Activity Recommendations</h3>
+            <div class="health-grid">
+                <div class="health-card">
+                    <h4>🧠 Mental Health</h4>
+                    <p>Regular exercise, a balanced diet, and sufficient sleep are essential for maintaining mental health. Incorporate mindfulness practices such as yoga and meditation into your routine.</p>
+                </div>
+                <div class="health-card">
+                    <h4>🏃 Physical Activity</h4>
+                    <p>Engage in physical activities like walking, jogging, or yoga to enhance your mood and overall well-being. Consistent exercise helps manage stress and anxiety.</p>
+                </div>
+                <div class="health-card">
+                    <h4>🥗 Dietary Habits</h4>
+                    <p>Eat a diet rich in fruits, vegetables, lean proteins, and whole grains. Stay hydrated and limit caffeine and sugar intake for better emotional balance.</p>
+                </div>
+                <div class="health-card">
+                    <h4>💖 Emotional Well-being</h4>
+                    <p>Engage in activities that promote relaxation and joy. Practice gratitude, mindfulness, and spend quality time with loved ones.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yoga Video Recommendation -->
+        <div class="glass-card p-6 md:p-8">
+            <h3 class="text-xl font-semibold mb-4">🧘 Yoga and Relaxation Video</h3>
+            <p class="mb-4">
+                Yoga can help balance emotions and improve overall well-being. Here is a recommended video to guide you through a relaxing yoga session:
+            </p>
+            <div class="video-container mb-4">
+                <iframe src="https://www.youtube.com/embed/m3-O7gPsQK0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            <p>
+                Practicing yoga regularly can help manage stress and improve emotional health. Explore various poses and breathing exercises to find what works best for you.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

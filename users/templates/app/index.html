@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>GUN SHOT Classification</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2-ywShr1RGlUbqd9hNnAPIHFeKHnwyG8CQw&s" rel="icon">
+  <link href="{%static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{%static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{%static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{%static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{%static 'assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+  <link href="{%static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{%static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{%static 'assets/css/main.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: UpConstruction
+  * Template URL: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">	welcome to  </h1> <span>, {{ user.username|default:'Guest'}}</span>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+		  {% if user.is_authenticated %}
+          <li><a href="index.html" class="active">Home</a></li>
+		  <li><a href="{% url 'users-profile' %}">Profile</a></li>
+		  <li><a href="{% url 'model_db' %}">Database</a>
+			   
+          <li><a href="{% url 'profile_list' %}">profile_Database</a></li>
+          <li><a href="{% url 'logout_view' %}" class="boxed-btn">logout</a></li>
+          {% endif %}
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <div class="info d-flex align-items-center">
+        <div class="container">
+		  {% if user.is_authenticated %}
+          <div class="row justify-content-center" >
+            <div class="col-lg-6 text-center">
+              <h2>Gun Shot Classification</h2>
+			  <p>Gunshot classification using Recurrent Neural Networks (RNNs) involves analyzing audio data to accurately identify the occurrence of gunshots.  making them suitable for recognizing the temporal patterns of gunshot sounds. By training on a dataset of audio recordings,  enhancing real-time surveillance and security systems. The approach leverages the RNN's ability to remember and process sequences, improving accuracy in detection and classification tasks.</p>
+
+              <a href="{% url 'model' %}" class="btn-get-started">Model</a>
+			 
+            </div>
+          </div>
+		  {% else %}
+		  <div class="row justify-content-center">
+			<div class="col-lg-6 text-center">
+			  <h2>Welcome to Our Platform!</h2>
+			  <ul class="list-unstyled">
+				<li><strong>Create an Account:</strong> Sign up to access all the features and personalized services. <a href="{% url 'users-register' %}" class="btn-get-started">Register Now</a></li>
+				<li><strong>Log In:</strong> If you already have an account, log in to continue where you left off. <a href="{% url 'login' %}" class="btn-get-started">Login Here</a></li>
+				
+			</div>
+		  </div>
+		  
+		  {% endif %}
+
+        </div>
+      </div>
+
+      <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+
+       
+
+        <div class="carousel-item ">
+          <img src="https://img.gta5-mods.com/q95/images/mp5-smg-animated/f5ed19-00.jpg" alt="">
+        </div>
+
+        <div class="carousel-item active">
+          <img src="https://gamebanana.com/mods/embeddables/209718?variant=sd_image" alt="">
+        </div>
+
+        <div class="carousel-item">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/042/669/889/large/simone-federico-tomasello-assaultrifle.jpg?1635156940" alt="">
+        </div>
+
+        <div class="carousel-item">
+          <img src="https://media.sketchfab.com/models/fbab0e48119f47e6882f531ccbc8c074/thumbnails/64574ebce7ed494f9d98065fe89bcf21/848a052b1db049a2aa80f8befe740f05.jpeg" alt="">
+        </div>
+
+        <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+
+        <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a>
+
+      </div>
+
+    </section><!-- /Hero Section -->
+	{% if user.is_authenticated %}
+    <!-- Get Started Section -->
+    <!-- /Get Started Section -->
+
+    <!-- Constructions Section -->
+    <!-- Gunshot Audio Classification Section -->
+<section id="gunshot-classification" class="gunshot-classification section">
+
+	<!-- Section Title -->
+	<div class="container section-title">
+	  <h2>Gunshot Audio Classification</h2>
+	  <p>Classifying audio recordings of various firearms to improve security and analysis.</p>
+	</div><!-- End Section Title -->
+  
+	<div class="container">
+  
+	  <div class="row gy-4">
+  
+		<div class="col-lg-6" data-aos-delay="100">
+		  <div class="card-item">
+			<div class="row">
+			  <div class="col-xl-12 d-flex align-items-center">
+				<div class="card-body">
+				  <h4 class="card-title">AK12</h4>
+				  <p>Identifying and classifying the distinct sound signature of the AK12 rifle to enhance firearm detection accuracy.</p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div><!-- End Card Item -->
+  
+		<div class="col-lg-6" data-aos-delay="200">
+		  <div class="card-item">
+			<div class="row">
+			  <div class="col-xl-12 d-flex align-items-center">
+				<div class="card-body">
+				  <h4 class="card-title">AK47</h4>
+				  <p>Classifying the unique firing sound of the AK47, aiding in distinguishing it from other firearms in various environments.</p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div><!-- End Card Item -->
+  
+		<div class="col-lg-6" data-aos-delay="300">
+		  <div class="card-item">
+			<div class="row">
+			  <div class="col-xl-12 d-flex align-items-center">
+				<div class="card-body">
+				  <h4 class="card-title">Desert Eagle</h4>
+				  <p>Analyzing the distinct audio profile of the Desert Eagle to enhance identification capabilities for security purposes.</p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div><!-- End Card Item -->
+  
+		
+  
+		<!-- End Card Item -->
+  
+		<!-- End Card Item -->
+  
+		<div class="col-lg-6" data-aos-delay="700">
+		  <div class="card-item">
+			<div class="row">
+			  <div class="col-xl-12 d-flex align-items-center">
+				<div class="card-body">
+				  <h4 class="card-title">MG-42</h4>
+				  <p>Analyzing the audio profile of the MG-42 to improve classification and recognition accuracy in various environments.</p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div><!-- End Card Item -->
+  
+		<!-- End Card Item -->
+  
+		<!-- End Card Item -->
+  
+	  </div>
+  
+	</div>
+  
+  </section><!-- /Gunshot Audio Classification Section -->
+  
+  <!-- Services Section -->
+  <section id="services" class="services section light-background">
+  
+	<!-- Section Title -->
+	<div class="container section-title">
+	  <h2>Services</h2>
+	  <p>Our classification services help in accurate firearm identification through audio analysis.</p>
+	</div><!-- End Section Title -->
+  
+	<div class="container">
+  
+	  <div class="row gy-4">
+  
+		<div class="col-lg-4 col-md-6" data-aos-delay="100">
+		  <div class="service-item position-relative">
+			<div class="icon">
+			  <i class="fa-solid fa-audio-description"></i>
+			</div>
+			<h3>AK12 Classification</h3>
+			<p>Specialized audio classification services for AK12 firearms, ensuring accurate detection and analysis.</p>
+			<a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+		  </div>
+		</div><!-- End Service Item -->
+  
+		<div class="col-lg-4 col-md-6" data-aos-delay="200">
+		  <div class="service-item position-relative">
+			<div class="icon">
+			  <i class="fa-solid fa-audio-description"></i>
+			</div>
+			<h3>AK47 Classification</h3>
+			<p>Expert services for identifying and classifying AK47 gunshot sounds for enhanced security measures.</p>
+			<a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+		  </div>
+		</div><!-- End Service Item -->
+  
+		<div class="col-lg-4 col-md-6" data-aos-delay="300">
+		  <div class="service-item position-relative">
+			<div class="icon">
+			  <i class="fa-solid fa-audio-description"></i>
+			</div>
+			<h3>Desert Eagle Classification</h3>
+			<p>Advanced classification techniques for Desert Eagle firearm sounds, aiding in precise identification.</p>
+			<a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+		  </div>
+		</div><!-- End Service Item -->
+  
+		<!-- End Service Item -->
+  
+		<div class="col-lg-4 col-md-6" data-aos-delay="700">
+		  <div class="service-item position-relative">
+			<div class="icon">
+			  <i class="fa-solid fa-audio-description"></i>
+			</div>
+			<h3>MG-42 Classification</h3>
+			<p>Advanced classification services for MG-42 firearms to enhance detection accuracy and response.</p>
+			<a href="#" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+		  </div>
+		</div><!-- End Service Item -->
+  
+		<!-- End Service Item -->
+  
+		
+	  </div>
+  
+	</div>
+  
+  </section><!-- /Services Section -->
+  <!-- /Services Section -->
+
+   <!-- Alt Services Section -->
+<section id="gunshot-classification" class="gunshot-classification section">
+    <div class="container">
+        <div class="row justify-content-around gy-4">
+            <div class="features-image col-lg-6 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlymZCKhIft7naEmNn1Ual7xkefIMOlHU9oQ&s" alt="Gunshot Sound Classification" class="img-fluid">
+            </div>
+
+            <div class="col-lg-5 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+                <h3>Advancements in Gunshot Sound Classification</h3>
+                <p>Gunshot sound classification utilizes advanced machine learning algorithms to accurately identify gunshot noises in various environments. This technology enhances public safety and assists law enforcement agencies in rapid response.</p>
+
+                <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
+                    <i class="bi bi-shield-check flex-shrink-0"></i>
+                    <div>
+                        <h4><a href="" class="stretched-link">Enhanced Safety</a></h4>
+                        <p>Quickly detect and locate gunshots, improving emergency response times and ensuring public safety in critical situations.</p>
+                    </div>
+                </div><!-- End Icon Box -->
+
+               <!-- End Icon Box -->
+
+               <!-- End Icon Box -->
+
+                <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="600">
+                    <i class="bi bi-lightning-fill flex-shrink-0"></i>
+                    <div>
+                        <h4><a href="" class="stretched-link">Scalability</a></h4>
+                        <p>Adaptable to various environments, from urban areas to remote locations, ensuring comprehensive coverage and effectiveness.</p>
+                    </div>
+                </div><!-- End Icon Box -->
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Features Section -->
+	<section id="features" class="features section">
+		<div class="container">
+		  <ul class="nav nav-tabs row g-2 d-flex" data-aos="fade-up" data-aos-delay="100" role="tablist">
+			<li class="nav-item col-3" role="presentation">
+			  <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1" aria-selected="true" role="tab">
+				<h4>Introduction</h4>
+			  </a>
+			</li>
+			<li class="nav-item col-3" role="presentation">
+			  <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2" aria-selected="false" tabindex="-1" role="tab">
+				<h4>Methodology</h4>
+			  </a>
+			</li>
+			<li class="nav-item col-3" role="presentation">
+			  <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3" aria-selected="false" tabindex="-1" role="tab">
+				<h4>Implementation</h4>
+			  </a>
+			</li>
+			<li class="nav-item col-3" role="presentation">
+			  <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-4" aria-selected="false" tabindex="-1" role="tab">
+				<h4>Results</h4>
+			  </a>
+			</li>
+		  </ul>
+	  
+		  <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+			<div class="tab-pane fade active show" id="features-tab-1" role="tabpanel">
+			  <div class="row">
+				<div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+				  <h3>Gunshot Audio Classification using RNN</h3>
+				  <p class="fst-italic">
+					Gunshot audio classification is a critical task for identifying gunshots in real-time, which can assist in rapid response during emergencies. This system utilizes RNNs to effectively classify gunshot sounds from other types of audio.
+				  </p>
+				  <ul>
+					<li><i class="bi bi-check2-all"></i> <span>Detects and differentiates gunshots from other background noises.</span></li>
+					<li><i class="bi bi-check2-all"></i> <span>Enhanced accuracy through continuous learning and adaptation.</span></li>
+				  </ul>
+				</div>
+				<div class="col-lg-6 order-1 order-lg-2 text-center">
+				  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT85ph9AV_jtghqc-gKLj5u4wolze15Sw6Lg&s" alt="Gunshot Audio Classification" class="img-fluid">
+				</div>
+			  </div>
+			</div>
+	  
+			<div class="tab-pane fade" id="features-tab-2" role="tabpanel">
+			  <div class="row">
+				<div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+				  <h3>RNN-Based Methodology</h3>
+				  <p class="fst-italic">
+					The classification process begins with audio pre-processing, where the sound signals are transformed into spectrograms. These are then fed into an RNN model, which is capable of capturing the temporal patterns in the audio.
+				  </p>
+				  <ul>
+					<li><i class="bi bi-check2-all"></i> <span>Audio signal preprocessing and spectrogram generation.</span></li>
+					<li><i class="bi bi-check2-all"></i> <span>Recurrent Neural Network (RNN) architecture for sequence learning.</span></li>
+					<li><i class="bi bi-check2-all"></i> <span>Training with labeled gunshot and non-gunshot audio samples.</span></li>
+				  </ul>
+				</div>
+				<div class="col-lg-6 order-1 order-lg-2 text-center">
+				  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShIQ1_ENnXprGQvHD7NowWivff6oYhwtF09g&s" alt="RNN Methodology" class="img-fluid">
+				</div>
+			  </div>
+			</div>
+	  
+			<div class="tab-pane fade" id="features-tab-3" role="tabpanel">
+			  <div class="row">
+				<div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+				  <h3>Implementation of the RNN Model</h3>
+				  <ul>
+					<li><i class="bi bi-check2-all"></i> <span>Building the RNN model using TensorFlow/Keras.</span></li>
+					<li><i class="bi bi-check2-all"></i> <span>Training on a dataset of gunshot and non-gunshot audio files.</span></li>
+					<li><i class="bi bi-check2-all"></i> <span>Optimization through hyperparameter tuning and model validation.</span></li>
+				  </ul>
+				  <p class="fst-italic">
+					The implementation phase involves the development of the RNN model, which is trained on diverse audio datasets to ensure robust performance in detecting gunshot sounds under various conditions.
+				  </p>
+				</div>
+				<div class="col-lg-6 order-1 order-lg-2 text-center">
+				  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLc1jNRJH8dtkd2OGLLnwK0eCl_F7cLxx0xQ&s" alt="RNN Implementation" class="img-fluid">
+				</div>
+			  </div>
+			</div>
+	  
+			<div class="tab-pane fade" id="features-tab-4" role="tabpanel">
+			  <div class="row">
+				<div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+				  <h3>Results and Analysis</h3>
+				  <p class="fst-italic">
+					The RNN-based gunshot classification system achieves high accuracy, with real-time performance optimized for deployment in critical applications such as law enforcement and public safety.
+				  </p>
+				  <ul>
+					<li><i class="bi bi-check2-all"></i> <span>Achieved accuracy of over 80%  above in test scenarios.</span></li>
+					<li><i class="bi bi-check2-all"></i> <span>Scalable solution adaptable to different environments.</span></li>
+				  </ul>
+				</div>
+				<div class="col-lg-6 order-1 order-lg-2 text-center">
+				  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFxi6iXTsqfWPhyXES_wVsGraa4UdsHc2lOA&s" alt="RNN Results" class="img-fluid">
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </section>
+	  <!-- /Features Section -->
+
+    <!-- Projects Section -->
+    <!-- /Projects Section -->
+
+    <!-- Testimonials Section -->
+    !-- End Section Title -->
+<!-- /Recent Blog Posts Section -->
+
+  </main>
+{% endif %}
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{%static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{%static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{%static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{%static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{%static 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+  <script src="{%static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{%static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{%static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{%static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

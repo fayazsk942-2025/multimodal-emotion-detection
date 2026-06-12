@@ -1,0 +1,169 @@
+{
+  "intents": [
+    {
+      "tag": "brain_tumor_intro",
+      "patterns": ["What is a brain tumor?", "Can you tell me about brain tumors?", "Explain brain tumor"],
+      "responses": ["A brain tumor is an abnormal growth of cells in the brain. It can be benign (non-cancerous) or malignant (cancerous)."]
+    },
+    {
+      "tag": "brain_tumor_symptoms",
+      "patterns": ["What are the symptoms of brain tumor?", "Signs of brain tumor?", "How do I know if I have a brain tumor?"],
+      "responses": ["Symptoms include headaches, seizures, vision problems, memory loss, difficulty speaking, and balance issues."]
+    },
+    {
+      "tag": "brain_tumor_types",
+      "patterns": ["Types of brain tumors?", "Different kinds of brain tumors?", "Name some types of brain tumors"],
+      "responses": ["Common types include gliomas, meningiomas, pituitary tumors, and medulloblastomas."]
+    },
+    {
+      "tag": "brain_tumor_diagnosis",
+      "patterns": ["How is a brain tumor diagnosed?", "Brain tumor detection?", "What tests detect brain tumors?"],
+      "responses": ["Diagnosis typically involves MRI or CT scans, neurological exams, and sometimes biopsy."]
+    },
+    {
+      "tag": "brain_tumor_treatment",
+      "patterns": ["How is a brain tumor treated?", "Treatment options for brain tumors?", "Can brain tumors be treated?"],
+      "responses": ["Treatment depends on the type and location of the tumor. It may include surgery, radiation, chemotherapy, or targeted therapy."]
+    },
+    {
+      "tag": "brain_tumor_survival",
+      "patterns": ["What is the survival rate for brain tumor?", "Is brain tumor curable?", "Can you survive a brain tumor?"],
+      "responses": ["Survival depends on the tumor type, size, and treatment response. Some tumors are curable, others are manageable."]
+    },
+    {
+      "tag": "brain_tumor_causes",
+      "patterns": ["What causes brain tumors?", "Brain tumor reasons?", "Why do brain tumors happen?"],
+      "responses": ["Causes can include genetic mutations, exposure to radiation, or unknown factors. Most brain tumors are not inherited."]
+    },
+    {
+      "tag": "brain_tumor_in_children",
+      "patterns": ["Do children get brain tumors?", "Brain tumor in kids?", "Are brain tumors common in children?"],
+      "responses": ["Yes, brain tumors can occur in children. Common types in children include medulloblastoma and astrocytoma."]
+    },
+    {
+      "tag": "brain_tumor_ai_detection",
+      "patterns": ["Can AI detect brain tumors?", "How does AI help in brain tumor detection?", "Is deep learning used for brain tumor detection?"],
+      "responses": ["Yes, AI and deep learning models like CNN can analyze brain scans to detect tumors with high accuracy."]
+    },
+    {
+      "tag": "brain_tumor_real_time_detection",
+      "patterns": ["Can brain tumors be detected in real-time?", "Is real-time brain tumor detection possible?", "Can you detect brain tumors using a webcam?"],
+      "responses": ["Yes, using models like YOLOv8 with webcam input, brain tumors can be detected in real-time with proper training data."]
+    },
+    {
+      "tag": "brain_tumor_stages",
+      "patterns": ["What are the stages of brain tumors?", "Explain brain tumor staging", "Stages of tumor progression"],
+      "responses": ["Brain tumors are often graded I to IV based on how aggressive the tumor cells appear under a microscope."]
+    },
+    {
+      "tag": "brain_tumor_biopsy",
+      "patterns": ["Is a biopsy required for brain tumors?", "What is a brain tumor biopsy?", "Why is a biopsy done for brain tumors?"],
+      "responses": ["A biopsy involves removing a sample of brain tissue for lab testing to confirm tumor type and grade."]
+    },
+    {
+      "tag": "brain_tumor_surgery",
+      "patterns": ["Is surgery necessary for brain tumors?", "Can brain tumors be removed?", "How is brain tumor surgery done?"],
+      "responses": ["Surgery is often used to remove as much of the tumor as possible without harming vital brain function."]
+    },
+    {
+      "tag": "brain_tumor_mri",
+      "patterns": ["Is MRI used for brain tumor detection?", "Why MRI for brain tumor?", "How does MRI detect brain tumors?"],
+      "responses": ["MRI is commonly used to detect and monitor brain tumors due to its detailed imaging capabilities."]
+    },
+    {
+      "tag": "brain_tumor_vs_migraine",
+      "patterns": ["How is brain tumor headache different from migraine?", "Brain tumor or migraine?", "Do brain tumors cause migraines?"],
+      "responses": ["Brain tumor headaches are usually persistent, worsen over time, and may be accompanied by other neurological symptoms."]
+    },
+    {
+      "tag": "brain_tumor_recurrence",
+      "patterns": ["Can brain tumors come back?", "What is tumor recurrence?", "Do brain tumors return after treatment?"],
+      "responses": ["Yes, brain tumors can recur after treatment. Follow-up scans and continuous monitoring are essential."]
+    },
+    {
+      "tag": "brain_tumor_genetics",
+      "patterns": ["Are brain tumors genetic?", "Can I inherit a brain tumor?", "Is brain cancer hereditary?"],
+      "responses": ["Most brain tumors are not inherited, but some genetic syndromes may increase the risk."]
+    },
+    {
+      "tag": "brain_tumor_radiation_risk",
+      "patterns": ["Can radiation cause brain tumors?", "Is radiation a risk factor?", "How harmful is radiation to the brain?"],
+      "responses": ["Exposure to ionizing radiation is a known risk factor for developing brain tumors, especially in children."]
+    },
+    {
+      "tag": "brain_tumor_lifestyle",
+      "patterns": ["Can lifestyle cause brain tumors?", "Does diet affect brain tumor risk?", "What lifestyle factors affect brain health?"],
+      "responses": ["There’s no strong link between lifestyle and brain tumors, but healthy living supports overall brain health."]
+    },
+    {
+      "tag": "brain_tumor_screening",
+      "patterns": ["Is there a screening for brain tumors?", "Can brain tumors be detected early?", "How early can a brain tumor be found?"],
+      "responses": ["There is no standard screening for brain tumors. Most are detected based on symptoms and imaging tests."]
+    },
+    {
+      "tag": "brain_tumor_prognosis",
+      "patterns": ["What is the outlook for brain tumor?", "Brain tumor prognosis?", "Will I recover from brain tumor?"],
+      "responses": ["Prognosis depends on the tumor type, size, location, and how well it responds to treatment."]
+    },
+    {
+      "tag": "brain_tumor_yolo_model",
+      "patterns": ["How does YOLO detect brain tumors?", "YOLO brain tumor detection?", "Is YOLOv8 good for medical detection?"],
+      "responses": ["YOLOv8 can detect tumors in images in real-time with bounding boxes, making it useful for visual diagnosis."]
+    },
+    {
+      "tag": "brain_tumor_dataset",
+      "patterns": ["Where to get brain tumor datasets?", "Brain tumor image dataset?", "What dataset is used for training brain tumor models?"],
+      "responses": ["Public datasets like BraTS, Kaggle brain tumor MRI datasets are commonly used for training models."]
+    },
+    {
+      "tag": "brain_tumor_cnn_model",
+      "patterns": ["Is CNN good for brain tumor detection?", "How does CNN detect tumors?", "CNN for medical imaging?"],
+      "responses": ["CNNs are widely used for detecting brain tumors in MRI scans due to their image classification abilities."]
+    },
+    {
+      "tag": "brain_tumor_prevention",
+      "patterns": ["Can brain tumors be prevented?", "How to prevent brain tumors?", "Is there a way to avoid brain tumors?"],
+      "responses": ["Most brain tumors cannot be prevented, but avoiding radiation exposure and living healthily may reduce risk."]
+    },
+    {
+      "tag": "brain_tumor_fatigue",
+      "patterns": ["Does brain tumor cause fatigue?", "Why do I feel tired with brain tumor?", "Is fatigue a symptom?"],
+      "responses": ["Yes, fatigue is a common symptom and may be caused by the tumor or its treatment."]
+    },
+    {
+      "tag": "brain_tumor_vision_problems",
+      "patterns": ["Can brain tumors affect eyesight?", "Why is my vision blurry?", "Do tumors cause vision loss?"],
+      "responses": ["Yes, brain tumors can cause vision problems, especially if located near the optic nerves."]
+    },
+    {
+      "tag": "brain_tumor_balance_issues",
+      "patterns": ["Why is my balance off?", "Do brain tumors affect balance?", "Tumor and coordination issues?"],
+      "responses": ["Tumors in certain areas like the cerebellum can lead to balance and coordination problems."]
+    },
+    {
+      "tag": "brain_tumor_speech_problems",
+      "patterns": ["Why am I having trouble speaking?", "Do tumors affect speech?", "Speech loss with brain tumor?"],
+      "responses": ["Tumors near speech centers can affect your ability to speak or understand language."]
+    },
+    {
+      "tag": "brain_tumor_dataset_formats",
+      "patterns": ["What format is brain tumor data in?", "Is it DICOM or PNG?", "Data format for MRI scans?"],
+      "responses": ["Brain tumor datasets may come in DICOM, NIfTI, PNG, or JPG formats depending on the source."]
+    },
+    {
+      "tag": "brain_tumor_post_treatment",
+      "patterns": ["What happens after brain tumor treatment?", "Recovery steps after treatment?", "Life after brain tumor care?"],
+      "responses": ["After treatment, patients may need physical therapy, regular scans, and cognitive rehabilitation."]
+    },
+    {
+      "tag": "brain_tumor_detection_accuracy",
+      "patterns": ["How accurate is AI in detecting tumors?", "Detection accuracy of models?", "Is it reliable?"],
+      "responses": ["AI models can reach 90%+ accuracy in brain tumor detection when trained on good quality data."]
+    },
+    {
+      "tag": "brain_tumor_in_women",
+      "patterns": ["Do women get brain tumors?", "Brain tumors in females?", "Are some tumors more common in women?"],
+      "responses": ["Yes, some tumors like meningiomas are more common in women, possibly due to hormone-related factors."]
+    }
+  ]
+}

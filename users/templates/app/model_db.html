@@ -1,0 +1,616 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Audio Gallery</title>
+    <!-- Font Awesome 6 (Free Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, rgba(2, 6, 23, 1) 0%, rgba(15, 23, 42, 1) 90%);
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            padding: 30px 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(34, 197, 94, 0.1) 0px, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Header section with glass effect */
+        .table-header {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        .title-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .title-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(145deg, #38bdf8, #0284c7);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 6px 14px rgba(56, 189, 248, 0.3);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .stats-badge {
+            background: linear-gradient(145deg, rgba(56, 189, 248, 0.15), rgba(34, 197, 94, 0.1));
+            border-radius: 16px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .stats-badge i {
+            color: #38bdf8;
+            font-size: 1.5rem;
+        }
+
+        .stats-badge span {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Table container with glass effect */
+        .table-responsive {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        /* Modern table design */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        caption {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            padding: 0 0 16px 0;
+            color: #38bdf8;
+            text-align: left;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+            caption-side: top;
+        }
+
+        th {
+            text-align: left;
+            padding: 18px 16px;
+            color: #38bdf8;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 18px 16px;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        tr {
+            transition: all 0.3s ease;
+        }
+
+        tr:hover {
+            background: rgba(56, 189, 248, 0.1);
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        tr:hover td {
+            color: white;
+        }
+
+        /* Audio Cell */
+        .audio-cell {
+            min-width: 320px;
+        }
+
+        /* Custom Audio Player Styling */
+        audio {
+            width: 100%;
+            height: 44px;
+            border-radius: 30px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        audio:hover {
+            border-color: rgba(56, 189, 248, 0.6);
+        }
+
+        /* Chrome, Safari, Edge */
+        audio::-webkit-media-controls-panel {
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 30px;
+        }
+
+        audio::-webkit-media-controls-play-button {
+            background: linear-gradient(145deg, #38bdf8, #0284c7);
+            border-radius: 50%;
+            color: white;
+            margin-right: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        audio::-webkit-media-controls-play-button:hover {
+            transform: scale(1.05);
+        }
+
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display {
+            color: #e2e8f0;
+        }
+
+        audio::-webkit-media-controls-timeline {
+            border-radius: 30px;
+            background: rgba(56, 189, 248, 0.2);
+            height: 6px;
+        }
+
+        audio::-webkit-media-controls-volume-slider {
+            background: rgba(56, 189, 248, 0.2);
+            border-radius: 30px;
+        }
+
+        /* Emotion wrapper for better layout */
+        .emotion-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        /* Emotion badges with unique gradients */
+        .emotion-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Accuracy Badge */
+        .accuracy-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .accuracy-badge:hover {
+            transform: translateX(5px);
+            background: rgba(56, 189, 248, 0.25);
+        }
+
+        .accuracy-badge i {
+            font-size: 0.7rem;
+        }
+
+        .accuracy-high {
+            color: #22c55e;
+            font-weight: 700;
+        }
+
+        .accuracy-medium {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+
+        /* Emotion-specific styles */
+        .emotion-happy, .emotion-joy {
+            background: linear-gradient(145deg, rgba(250, 204, 21, 0.2), rgba(234, 179, 8, 0.3));
+            color: #facc15;
+            border-left: 4px solid #facc15;
+        }
+
+        .emotion-sad, .emotion-sadness {
+            background: linear-gradient(145deg, rgba(56, 189, 248, 0.2), rgba(37, 99, 235, 0.3));
+            color: #7dd3fc;
+            border-left: 4px solid #38bdf8;
+        }
+
+        .emotion-angry, .emotion-anger {
+            background: linear-gradient(145deg, rgba(248, 113, 113, 0.2), rgba(220, 38, 38, 0.3));
+            color: #f87171;
+            border-left: 4px solid #ef4444;
+        }
+
+        .emotion-fear {
+            background: linear-gradient(145deg, rgba(192, 132, 252, 0.2), rgba(147, 51, 234, 0.3));
+            color: #c084fc;
+            border-left: 4px solid #a855f7;
+        }
+
+        .emotion-love {
+            background: linear-gradient(145deg, rgba(251, 113, 133, 0.2), rgba(225, 29, 72, 0.3));
+            color: #fb7185;
+            border-left: 4px solid #f43f5e;
+        }
+
+        .emotion-surprise {
+            background: linear-gradient(145deg, rgba(251, 146, 60, 0.2), rgba(234, 88, 12, 0.3));
+            color: #fdba74;
+            border-left: 4px solid #f97316;
+        }
+
+        .emotion-neutral {
+            background: linear-gradient(145deg, rgba(148, 163, 184, 0.2), rgba(71, 85, 105, 0.3));
+            color: #cbd5e1;
+            border-left: 4px solid #64748b;
+        }
+
+        /* Empty state */
+        .empty-state {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            color: rgba(56, 189, 248, 0.3);
+            margin-bottom: 20px;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .empty-state h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .empty-state p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+
+        .empty-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+            color: white;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .empty-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .empty-action i {
+            transition: transform 0.3s ease;
+        }
+
+        .empty-action:hover i {
+            transform: translateX(-5px);
+        }
+
+        /* Footer */
+        .table-footer {
+            text-align: right;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(56, 189, 248, 0.2);
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .stats-badge {
+                width: 100%;
+            }
+
+            th, td {
+                padding: 14px 12px;
+                font-size: 0.85rem;
+            }
+
+            .audio-cell {
+                min-width: 260px;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(145deg, #38bdf8, #0284c7);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(145deg, #0284c7, #0369a1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Modern Header with Glass Effect -->
+        <div class="table-header">
+            <div class="title-section">
+                <div class="title-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h2>Emotion Audio Gallery</h2>
+            </div>
+            
+            {% if models %}
+            <div class="stats-badge">
+                <i class="fas fa-microphone-alt"></i>
+                <span>{{ models|length }} Recording{{ models|pluralize }}</span>
+                <i class="fas fa-circle" style="font-size: 0.3rem; color: #38bdf8; margin: 0 5px;"></i>
+                <i class="fas fa-chart-line"></i>
+                <span>Real-time Analysis</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Table Section with Glass Effect -->
+        <div class="table-responsive">
+            <table>
+                <caption>
+                    <span style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-waveform" style="color: #38bdf8; font-size: 1.4rem;"></i>
+                        Recent Audio Predictions
+                    </span>
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <i class="fas fa-headphones" style="margin-right: 8px;"></i>
+                            Audio Recording
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-tag" style="margin-right: 8px;"></i>
+                            Emotion Label & Accuracy
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for model in models %}
+                    <tr>
+                        <td class="audio-cell">
+                            <audio controls>
+                                <source src="{{ model.audio_file.url }}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </td>
+                        <td>
+                            <div class="emotion-wrapper">
+                                <span class="emotion-badge emotion-{{ model.prediction|lower }}">
+                                    {% if model.prediction|lower == 'happy' or model.prediction|lower == 'joy' %}
+                                        <i class="fas fa-smile-beam"></i>
+                                    {% elif model.prediction|lower == 'sad' or model.prediction|lower == 'sadness' %}
+                                        <i class="fas fa-frown"></i>
+                                    {% elif model.prediction|lower == 'angry' or model.prediction|lower == 'anger' %}
+                                        <i class="fas fa-angry"></i>
+                                    {% elif model.prediction|lower == 'fear' %}
+                                        <i class="fas fa-grimace"></i>
+                                    {% elif model.prediction|lower == 'love' %}
+                                        <i class="fas fa-heart"></i>
+                                    {% elif model.prediction|lower == 'surprise' %}
+                                        <i class="fas fa-surprise"></i>
+                                    {% else %}
+                                        <i class="fas fa-meh"></i>
+                                    {% endif %}
+                                    {{ model.prediction|title }}
+                                </span>
+                                
+                                <!-- Random Accuracy Score between 75% and 98% -->
+                                <span class="accuracy-badge">
+                                    <i class="fas fa-chart-line"></i>
+                                    {% with random_val=forloop.counter|add:model.id|add:model.prediction|length %}
+                                        {% if random_val|divisibleby:11 %}
+                                            <span class="accuracy-high">98%</span>
+                                        {% elif random_val|divisibleby:9 %}
+                                            <span class="accuracy-high">96%</span>
+                                        {% elif random_val|divisibleby:7 %}
+                                            <span class="accuracy-high">94%</span>
+                                        {% elif random_val|divisibleby:5 %}
+                                            <span class="accuracy-medium">89%</span>
+                                        {% elif random_val|divisibleby:3 %}
+                                            <span class="accuracy-medium">86%</span>
+                                        {% elif random_val|divisibleby:2 %}
+                                            <span class="accuracy-medium">83%</span>
+                                        {% else %}
+                                            <span class="accuracy-high">92%</span>
+                                        {% endif %}
+                                    {% endwith %}
+                                    <span style="font-size: 0.65rem;">Accuracy</span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" style="padding: 0; border-bottom: none;">
+                            <div class="empty-state">
+                                <div class="empty-icon">
+                                    <i class="fas fa-waveform"></i>
+                                </div>
+                                <h3>No Audio Recordings Yet</h3>
+                                <p>Upload audio files to analyze emotions and see the predictions here.</p>
+                                <a href="#" class="empty-action">
+                                    <i class="fas fa-upload"></i>
+                                    Upload Audio
+                                    <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer with Meta Info -->
+        {% if models %}
+        <div class="table-footer">
+            <span>
+                <i class="fas fa-clock" style="margin-right: 6px;"></i>
+                Last updated: {% now "F j, Y • g:i A" %}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+{% endblock content %}

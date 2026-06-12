@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Emotion Detection Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .shape:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            top: -300px;
+            right: -100px;
+        }
+
+        .shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            left: -100px;
+        }
+
+        .shape:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            right: 20%;
+        }
+
+        #FormContainer {
+            border-radius: 20px;
+            width: 100%;
+            max-width: 450px;
+            padding: 40px 35px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+
+        #FormContainer:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        #FormContainer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #FF9A00, #FF5E00, #FF0080, #2575fc);
+            z-index: 2;
+        }
+
+        h2 {
+            color: #203a43;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #FF9A00, #FF5E00);
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .input-div {
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 8px;
+            display: block;
+            transition: color 0.3s;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        form input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            background-color: #f8f9fa;
+            color: #333;
+            outline: none;
+            font-size: 1rem;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s;
+        }
+
+        form input:focus {
+            border-color: #2575fc;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.15);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        form input:focus + .input-icon {
+            color: #2575fc;
+        }
+
+        form button {
+            width: 100%;
+            padding: 18px 0;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #2575fc, #6a11cb);
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        form button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s;
+        }
+
+        form button:hover {
+            background: linear-gradient(90deg, #1e60d4, #5a0cb3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 117, 252, 0.3);
+        }
+
+        form button:hover::before {
+            left: 100%;
+        }
+
+        .links {
+            margin-top: 25px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .links a {
+            color: #2575fc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .links a:hover {
+            color: #FF5E00;
+            text-decoration: none;
+            transform: translateX(5px);
+        }
+
+        .links a i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        .emoji-icons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .emoji-icons span {
+            font-size: 2.5rem;
+            margin: 0 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .emoji-icons span:nth-child(1) {
+            animation-delay: 0s;
+            color: #FF9A00;
+        }
+
+        .emoji-icons span:nth-child(2) {
+            animation-delay: 0.5s;
+            color: #FF5E00;
+        }
+
+        .emoji-icons span:nth-child(3) {
+            animation-delay: 1s;
+            color: #2575fc;
+        }
+
+        .emoji-icons span:nth-child(4) {
+            animation-delay: 1.5s;
+            color: #FF0080;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            #FormContainer {
+                max-width: 90%;
+                padding: 35px 25px;
+            }
+            
+            h2 {
+                font-size: 1.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #FormContainer {
+                max-width: 100%;
+                border-radius: 15px;
+                padding: 30px 20px;
+            }
+            
+            h2 {
+                font-size: 1.7rem;
+            }
+            
+            .emoji-icons span {
+                font-size: 2rem;
+                margin: 0 5px;
+            }
+            
+            form input {
+                padding: 14px 14px 14px 44px;
+            }
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            width: 100%;
+            height: 4px;
+            background: #eee;
+            margin-top: 5px;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            background: #ff4444;
+            border-radius: 2px;
+            transition: width 0.3s, background 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background decorative shapes -->
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <div id="FormContainer">
+        <!-- Emotion icons -->
+        <div class="emoji-icons">
+            <span>😊</span>
+            <span>😢</span>
+            <span>😠</span>
+            <span>😮</span>
+        </div>
+        
+        <form id="Form" method="POST">
+            {% csrf_token %}
+            <h2>Emotion Detection</h2>
+            <p class="subtitle">Register to analyze emotions from voice, camera & text</p>
+            
+            <div class="input-div">
+                <label for="id_first_name">First Name</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user input-icon"></i>
+                    {{ form.first_name }}
+                </div>
+            </div>
+            
+            <div class="input-div">
+                <label for="id_last_name">Last Name</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user-tag input-icon"></i>
+                    {{ form.last_name }}
+                </div>
+            </div>
+            
+            <div class="input-div">
+                <label for="id_email">Email Address</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope input-icon"></i>
+                    {{ form.email }}
+                </div>
+            </div>
+            
+            <div class="input-div">
+                <label for="id_username">Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-at input-icon"></i>
+                    {{ form.username }}
+                </div>
+            </div>
+            
+            <div class="input-div">
+                <label for="id_password1">Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    {{ form.password1 }}
+                </div>
+                <div class="password-strength">
+                    <div class="password-strength-bar"></div>
+                </div>
+            </div>
+            
+            <div class="input-div">
+                <label for="id_password2">Confirm Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    {{ form.password2 }}
+                </div>
+            </div>
+            
+            <button type="submit" class="btn">
+                <i class="fas fa-user-plus" style="margin-right: 8px;"></i> Create Account
+            </button>
+            
+            <div class="links">
+                <a href="{% url 'login' %}">
+                    <i class="fas fa-sign-in-alt"></i> Already have an account? Login
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Simple password strength indicator
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('id_password1');
+            const strengthBar = document.querySelector('.password-strength-bar');
+            const strengthContainer = document.querySelector('.password-strength');
+            
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    const password = passwordInput.value;
+                    let strength = 0;
+                    
+                    if (password.length > 0) {
+                        strengthContainer.style.display = 'block';
+                        
+                        // Check password strength
+                        if (password.length >= 8) strength += 25;
+                        if (/[A-Z]/.test(password)) strength += 25;
+                        if (/[0-9]/.test(password)) strength += 25;
+                        if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+                        
+                        // Update strength bar
+                        strengthBar.style.width = strength + '%';
+                        
+                        // Change color based on strength
+                        if (strength < 50) {
+                            strengthBar.style.background = '#ff4444';
+                        } else if (strength < 75) {
+                            strengthBar.style.background = '#ffa700';
+                        } else {
+                            strengthBar.style.background = '#00c851';
+                        }
+                    } else {
+                        strengthContainer.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Add focus effects to form inputs
+            const formInputs = document.querySelectorAll('form input');
+            formInputs.forEach(input => {
+                // Add placeholder if empty
+                if (!input.getAttribute('placeholder')) {
+                    const label = input.parentElement.parentElement.querySelector('label');
+                    if (label) {
+                        input.setAttribute('placeholder', `Enter your ${label.textContent.toLowerCase()}`);
+                    }
+                }
+                
+                // Add focus/blur effects
+                input.addEventListener('focus', function() {
+                    this.parentElement.parentElement.querySelector('label').style.color = '#2575fc';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.parentElement.querySelector('label').style.color = '#444';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

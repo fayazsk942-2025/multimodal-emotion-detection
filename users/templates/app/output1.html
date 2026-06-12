@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Management Solutions</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Background image overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://thumbs.dreamstime.com/b/collage-portraits-young-people-multicolored-background-neon-collage-portraits-young-emotional-people-175302160.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.7;
+            z-index: -2;
+        }
+
+        /* Additional gradient overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.4), rgba(118, 75, 162, 0.4));
+            z-index: -1;
+        }
+
+        /* Glass morphism effect for cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+            margin: 20px;
+            padding: 30px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-5px);
+        }
+
+        /* Header styles */
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .card-header img {
+            border-radius: 20px;
+            margin-top: 15px;
+            max-width: 250px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Section styles */
+        .section {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #4f46e5;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .section-text {
+            color: #1e293b;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* List styles */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: #1e293b;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li strong {
+            color: #4f46e5;
+            min-width: 180px;
+        }
+
+        ul li::before {
+            content: "✨";
+            margin-right: 10px;
+        }
+
+        /* Recommendation items */
+        .recommendation-item {
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            border-left: 4px solid #4f46e5;
+            transition: all 0.3s ease;
+            color: #1e293b;
+        }
+
+        .recommendation-item:hover {
+            transform: translateX(8px);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .suggestion-icon {
+            color: #4f46e5;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 20px;
+                margin: 15px;
+            }
+            
+            .card-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+            }
+            
+            ul li strong {
+                min-width: 120px;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        
+        <!-- Anger Management -->
+        {% if prediction_text == 'anger' %}
+        <div class="glass-card">
+            <div class="card-header">
+                <h1>😤 Anger Management Solutions</h1>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHxcq59kRGQn-2qLUfK6oYg0DNTM-4Cj4jJw&s" alt="Anger Management">
+            </div>
+            <div class="card-body">
+                <div class="section">
+                    <div class="section-title">🧘 Understanding Anger</div>
+                    <p class="section-text">Anger is a natural emotion, but when it becomes excessive or uncontrolled, it can cause problems in personal and professional relationships. It's important to understand the triggers and patterns of anger to manage it effectively.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">✨ Quick Suggestions for You</div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🧘</i> Take 10 deep breaths - inhale for 4 seconds, hold for 4, exhale for 4
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🏃</i> Go for a brisk walk or run to release pent-up energy
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🎵</i> Listen to calming music or nature sounds
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">📝</i> Write down what's bothering you, then tear up the paper
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">💧</i> Drink a glass of cold water slowly to cool down
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🗣️</i> Talk to a trusted friend or family member about your feelings
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">🎯 Identify Triggers</div>
+                    <p class="section-text">Recognize what triggers your anger. This could be specific situations, people, or stressors. Keeping a journal to track these triggers can help in understanding and addressing the root causes.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">🧘 Practice Deep Breathing</div>
+                    <p class="section-text">Deep breathing exercises can help calm the mind and body. When you feel anger rising, take slow, deep breaths to help reduce the intensity of the emotion.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">🧘 Implement Relaxation Techniques</div>
+                    <p class="section-text">Incorporate relaxation techniques such as meditation, yoga, or progressive muscle relaxation into your routine. These practices can help in managing stress and reducing overall anger levels.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Disgust -->
+        {% elif prediction_text == 'disgust' %}
+        <div class="glass-card">
+            <div class="card-header">
+                <h1>🤢 Addressing Disgust</h1>
+                <img src="https://media.istockphoto.com/id/1080813354/photo/mmm-nah.jpg?s=612x612&w=0&k=20&c=nyc11NvL7jWTfP79zOMGnyVi8ajqnVAPXDZMXq6EvG8=" alt="Disgust Management">
+            </div>
+            <div class="card-body">
+                <div class="section">
+                    <div class="section-title">🧠 Understanding Disgust</div>
+                    <p class="section-text">Disgust is a complex emotion that can manifest in response to unpleasant or offensive stimuli. It can be triggered by sensory experiences such as unpleasant smells, tastes, or sights, as well as by psychological factors like moral violations or social rejection.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">✨ Quick Suggestions for You</div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🌿</i> Take a moment to step away from the triggering situation
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🧘</i> Practice deep breathing to reset your emotional state
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">📝</i> Write down what triggered the disgust feeling
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🗣️</i> Talk to someone about your feelings
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">💪 Approach to Solving Disgust Problems</div>
+                    <ul>
+                        <li><strong>Data Collection:</strong> Gather comprehensive data that includes various scenarios triggering disgust.</li>
+                        <li><strong>Model Training:</strong> Utilize machine learning algorithms to train models on the collected data.</li>
+                        <li><strong>Feature Engineering:</strong> Incorporate features that capture the nuances of disgust.</li>
+                        <li><strong>Regular Validation:</strong> Continuously validate and update the models to improve accuracy.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fear -->
+        {% elif prediction_text == 'fear' %}
+        <div class="glass-card">
+            <div class="card-header">
+                <h1>😨 Managing Fear</h1>
+                <img src="https://img.freepik.com/free-photo/lovely-blue-eyed-female-feels-scared-bites-fingernails-with-fear-feels-insecure-wears-spectacles-denim-jacket-isolated-white-wall-people-anxiety-concept_273609-15721.jpg" alt="Fear Management">
+            </div>
+            <div class="card-body">
+                <div class="section">
+                    <div class="section-title">🧠 Understanding Fear</div>
+                    <p class="section-text">Fear is a natural emotional response to perceived threats or danger. It can be a normal part of life, but when it becomes overwhelming or irrational, it may interfere with daily activities and overall well-being.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">✨ Quick Suggestions for You</div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🌿</i> Practice the 5-4-3-2-1 grounding technique
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🕯️</i> Light a scented candle or use essential oils like lavender
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">📞</i> Call a close friend or family member for reassurance
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🎬</i> Watch a comforting movie or show you love
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🧸</i> Wrap yourself in a warm blanket - it provides comfort and security
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">💪 Cognitive Behavioral Therapy (CBT)</div>
+                    <p class="section-text">CBT is a widely used approach for managing fear and anxiety. It helps individuals identify and challenge negative thought patterns and replace them with healthier, more realistic ones.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">🧘 Mindfulness and Relaxation Techniques</div>
+                    <p class="section-text">Practicing mindfulness and relaxation techniques can help manage fear by reducing stress and promoting a sense of calm. Deep breathing exercises, meditation, and progressive muscle relaxation can be effective.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Joy -->
+        {% elif prediction_text == 'joy' %}
+        <div class="glass-card">
+            <div class="card-header">
+                <h1>😊 Embrace Your Joy</h1>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsFFoQNYPZINqsW2rQSRTbPKz2TfOPZZ9kwg&s" alt="Joy">
+            </div>
+            <div class="card-body">
+                <div class="section">
+                    <div class="section-title">🌟 Understanding Joy</div>
+                    <p class="section-text">Joy is a wonderful emotion that brings happiness and fulfillment. It's important to recognize and nurture this positive feeling in your daily life.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">✨ Quick Suggestions for You</div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🎬</i> Go watch a new movie with friends or family today!
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🍕</i> Treat yourself to your favorite meal or dessert
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">👥</i> Plan an outing with friends - go to a park, cafe, or shopping
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🏠</i> Take a relaxing day off from work and enjoy quality time at home
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">📸</i> Capture happy moments - take photos or start a joy journal
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🎁</i> Spread happiness by surprising someone with a small gift or kind message
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🎨</i> Pursue a hobby you love - painting, dancing, cooking, or music
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Neutral -->
+        {% elif prediction_text == 'neutral' %}
+        <div class="glass-card">
+            <div class="card-header">
+                <h1>😐 Understanding Neutral Emotions</h1>
+                <img src="https://thumbs.dreamstime.com/b/close-up-portrait-beautiful-young-caucasian-man-neutral-indifferent-serious-face-people-human-facial-expressions-138673273.jpg" alt="Neutral Emotion">
+            </div>
+            <div class="card-body">
+                <div class="section">
+                    <div class="section-title">🧠 Understanding Neutral Emotions</div>
+                    <p class="section-text">Neutral emotions are often characterized by a lack of strong feelings in either a positive or negative direction. They can indicate a state of emotional equilibrium or disengagement.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">✨ Quick Suggestions for You</div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🎵</i> Listen to uplifting music to boost your mood
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🚶</i> Go for a walk to reconnect with your surroundings
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">📖</i> Read an inspiring book or article
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🗣️</i> Have a meaningful conversation with someone
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">💪 Expert Recommendations</div>
+                    <ul>
+                        <li><strong>Utilize Advanced Algorithms:</strong> Employ deep learning techniques to analyze subtle patterns.</li>
+                        <li><strong>Enhance Data Quality:</strong> Collect high-resolution data from multiple sources.</li>
+                        <li><strong>Incorporate Contextual Information:</strong> Integrate environmental and experiential factors.</li>
+                        <li><strong>Continuous Learning:</strong> Implement adaptive models that learn from new data.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sadness -->
+        {% elif prediction_text == 'sadness' %}
+        <div class="glass-card">
+            <div class="card-header">
+                <h1>😢 Overcoming Sadness</h1>
+                <img src="https://img.freepik.com/premium-photo/sad-man-sitting-edge-stream-woods_893012-63774.jpg" alt="Sadness Management">
+            </div>
+            <div class="card-body">
+                <div class="section">
+                    <div class="section-title">🧠 Understanding Sadness</div>
+                    <p class="section-text">Sadness is a natural emotional response to distressing situations and can vary in intensity. It's important to recognize when sadness becomes overwhelming or persistent.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">✨ Quick Suggestions for You</div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">📞</i> Call or video chat with a close friend or family member today
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🚶</i> Go for a peaceful walk in a park or nature trail
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🎵</i> Listen to uplifting music or watch a comedy show
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">📝</i> Write down your feelings in a journal - it helps to release emotions
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🛁</i> Take a warm bath or shower and practice self-care
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🍵</i> Make yourself a warm cup of tea or hot chocolate
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🐱</i> Spend time with a pet or watch cute animal videos
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🤗</i> Reach out for a hug from someone you trust
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">💪 Therapeutic Strategies</div>
+                    <p class="section-text"><strong>Cognitive Behavioral Therapy (CBT):</strong> Helps identify and change negative thought patterns.</p>
+                    <p class="section-text"><strong>Interpersonal Therapy (IPT):</strong> Focuses on improving relationships and communication skills.</p>
+                    <p class="section-text"><strong>Exercise:</strong> Regular physical activity releases endorphins and boosts mood.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Surprise -->
+        {% elif prediction_text == 'surprise' %}
+        <div class="glass-card">
+            <div class="card-header">
+                <h1>😲 Embracing Surprise</h1>
+                <img src="https://img.freepik.com/free-photo/wow-attractive-male-half-length-front-portrait-gray-studio-backgroud-young-emotional-surprised-man-standing-with-open-mouth-human-emotions-facial-expression-concept_155003-31387.jpg" alt="Surprise">
+            </div>
+            <div class="card-body">
+                <div class="section">
+                    <div class="section-title">🎭 Understanding Surprise</div>
+                    <p class="section-text">The emotion of "surprise" is complex and can vary greatly in intensity and context. It often involves sudden changes in facial expressions or physiological responses.</p>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">✨ Quick Suggestions for You</div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🎉</i> Embrace the unexpected - it adds excitement to life
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🧘</i> Take a moment to process the surprise before reacting
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">📝</i> Write about what surprised you and how it made you feel
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="suggestion-icon">🗣️</i> Share your surprising experience with others
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">💪 Expert Solutions</div>
+                    <ul>
+                        <li><strong>Enhance Data Collection:</strong> Gather diverse datasets for better accuracy.</li>
+                        <li><strong>Utilize Advanced Algorithms:</strong> Implement deep learning models.</li>
+                        <li><strong>Integrate Multimodal Data:</strong> Combine facial, voice, and physiological data.</li>
+                        <li><strong>Real-Time Analysis:</strong> Capture immediate emotional responses.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        {% endif %}
+    </div>
+</body>
+
+</html>

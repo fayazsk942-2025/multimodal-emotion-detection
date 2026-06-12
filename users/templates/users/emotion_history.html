@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion History Dashboard</title>
+    <style>
+        /* Import modern fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, rgba(2, 6, 23, 1) 0%, rgba(15, 23, 42, 1) 90%);
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            padding: 30px 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(34, 197, 94, 0.1) 0px, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Main container */
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Header section with glass effect */
+        .header {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        .title-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .title-icon {
+            font-size: 2.5rem;
+            color: #38bdf8;
+            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.5));
+            animation: pulse 3s infinite;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .stats-card {
+            background: linear-gradient(145deg, rgba(56, 189, 248, 0.15), rgba(34, 197, 94, 0.1));
+            border-radius: 16px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .stats-icon {
+            font-size: 1.8rem;
+            color: #38bdf8;
+        }
+
+        .stats-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stats-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+        }
+
+        /* Table container with glass effect */
+        .table-container {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        /* Modern table design */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 18px 16px;
+            color: #38bdf8;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 18px 16px;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        tr {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        tr:hover {
+            background: rgba(56, 189, 248, 0.1);
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        tr:hover td {
+            color: white;
+        }
+
+        /* ID badge */
+        .id-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(56, 189, 248, 0.15);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-weight: 600;
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        /* Emotion badges with unique gradients */
+        .emotion-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Emotion-specific styles */
+        .emotion-happy, .emotion-joy {
+            background: linear-gradient(145deg, rgba(250, 204, 21, 0.2), rgba(234, 179, 8, 0.3));
+            color: #facc15;
+            border-left: 4px solid #facc15;
+        }
+
+        .emotion-sad, .emotion-sadness {
+            background: linear-gradient(145deg, rgba(56, 189, 248, 0.2), rgba(37, 99, 235, 0.3));
+            color: #7dd3fc;
+            border-left: 4px solid #38bdf8;
+        }
+
+        .emotion-angry, .emotion-anger {
+            background: linear-gradient(145deg, rgba(248, 113, 113, 0.2), rgba(220, 38, 38, 0.3));
+            color: #f87171;
+            border-left: 4px solid #ef4444;
+        }
+
+        .emotion-fear {
+            background: linear-gradient(145deg, rgba(192, 132, 252, 0.2), rgba(147, 51, 234, 0.3));
+            color: #c084fc;
+            border-left: 4px solid #a855f7;
+        }
+
+        .emotion-love {
+            background: linear-gradient(145deg, rgba(251, 113, 133, 0.2), rgba(225, 29, 72, 0.3));
+            color: #fb7185;
+            border-left: 4px solid #f43f5e;
+        }
+
+        .emotion-surprise {
+            background: linear-gradient(145deg, rgba(251, 146, 60, 0.2), rgba(234, 88, 12, 0.3));
+            color: #fdba74;
+            border-left: 4px solid #f97316;
+        }
+
+        .emotion-neutral {
+            background: linear-gradient(145deg, rgba(148, 163, 184, 0.2), rgba(71, 85, 105, 0.3));
+            color: #cbd5e1;
+            border-left: 4px solid #64748b;
+        }
+
+        /* Confidence bar */
+        .confidence-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .confidence-bar {
+            width: 80px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            border-radius: 10px;
+            animation: growWidth 1s ease-out;
+        }
+
+        .confidence-text {
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        /* Date & time */
+        .datetime {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .datetime i {
+            color: #38bdf8;
+            font-size: 0.9rem;
+        }
+
+        /* Empty state */
+        .empty-state {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            color: rgba(56, 189, 248, 0.3);
+            margin-bottom: 20px;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .empty-state h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .empty-state p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+            color: white;
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(145deg, #16a34a, #15803d);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover i {
+            transform: translateX(-5px);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(148, 163, 184, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes growWidth {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--target-width);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .stats-card {
+                width: 100%;
+            }
+
+            th, td {
+                padding: 14px 12px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(145deg, #38bdf8, #0284c7);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(145deg, #0284c7, #0369a1);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header with glass morphism -->
+        <div class="header">
+            <div class="title-section">
+                <div class="title-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h2>Emotion History Dashboard</h2>
+            </div>
+            
+            {% if emotions %}
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="stats-info">
+                    <span class="stats-label">Total Entries</span>
+                    <span class="stats-number">{{ emotions|length }}</span>
+                </div>
+                <div style="width: 1px; height: 40px; background: rgba(56, 189, 248, 0.3); margin: 0 10px;"></div>
+                <div class="stats-info">
+                    <span class="stats-label">Latest</span>
+                    <span class="stats-number" style="font-size: 1.2rem;">
+                        {{ emotions.0.emotion|default:"—"|title }}
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Table Section with Glass Effect -->
+        {% if emotions %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-hashtag" style="margin-right: 6px;"></i> ID</th>
+                        <th><i class="fas fa-smile" style="margin-right: 6px;"></i> Emotion</th>
+                        <th><i class="fas fa-percent" style="margin-right: 6px;"></i> Confidence</th>
+                        <th><i class="fas fa-calendar-alt" style="margin-right: 6px;"></i> Date & Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in emotions %}
+                    <tr>
+                        <td>
+                            <span class="id-badge">
+                                <i class="fas fa-tag" style="margin-right: 4px; font-size: 0.7rem;"></i>
+                                {{ forloop.counter }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="emotion-badge emotion-{{ e.emotion|lower }}">
+                                {% if e.emotion|lower == 'happy' or e.emotion|lower == 'joy' %}
+                                    <i class="fas fa-smile-beam"></i>
+                                {% elif e.emotion|lower == 'sad' or e.emotion|lower == 'sadness' %}
+                                    <i class="fas fa-frown"></i>
+                                {% elif e.emotion|lower == 'angry' or e.emotion|lower == 'anger' %}
+                                    <i class="fas fa-angry"></i>
+                                {% elif e.emotion|lower == 'fear' %}
+                                    <i class="fas fa-grimace"></i>
+                                {% elif e.emotion|lower == 'love' %}
+                                    <i class="fas fa-heart"></i>
+                                {% elif e.emotion|lower == 'surprise' %}
+                                    <i class="fas fa-surprise"></i>
+                                {% else %}
+                                    <i class="fas fa-meh"></i>
+                                {% endif %}
+                                {{ e.emotion|title }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="confidence-wrapper">
+                                <span class="confidence-text">{{ e.confidence|floatformat:1 }}%</span>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" style="width: {{ e.confidence|floatformat:0 }}%;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="datetime">
+                                <i class="fas fa-clock"></i>
+                                {{ e.created_at|date:"M d, Y • h:i A" }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Button Container -->
+        <div class="button-container">
+            <a href="{% url 'emotions' %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i>
+                Back to Detection
+            </a>
+        </div>
+        
+        {% else %}
+        <!-- Empty State with Glass Effect -->
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h3>No Emotions Detected Yet</h3>
+            <p>Start your emotion analysis journey to see the magic happen. Your history will appear here.</p>
+            <a href="{% url 'emotions' %}" class="btn btn-primary" style="margin-top: 20px;">
+                <i class="fas fa-smile-wink"></i>
+                Analyze Your Emotions Now
+                <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                <i class="fas fa-magic" style="margin-right: 6px;"></i>
+                Emotion Detection System v2.0 • Powered by AI • {{ now|date:"Y" }}
+            </p>
+        </div>
+    </div>
+</body>
+</html>
