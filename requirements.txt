@@ -1,10 +1,48 @@
-social-auth-app-django
-Django
+Django>=5.2
 gunicorn
 whitenoise
+
+# Environment
+python-dotenv
+
+# Core ML / Data
+numpy
+scipy
+pandas
+scikit-learn
+joblib
+
+# Deep Learning
+tensorflow
+keras
 torch
 transformers
-numpy
-scikit-learn
+
+# Computer Vision
 opencv-python-headless
-python-dotenv
+Pillow
+
+# Audio processing
+librosa
+soundfile
+
+# NLP / Chatbot
+nltk
+
+# HuggingFace dependencies (safe for Render)
+huggingface-hub
+tokenizers
+safetensors
+
+# Image/Video ML (Face emotion)
+deepface
+mtcnn
+
+# Visualization (you imported matplotlib)
+matplotlib
+
+# Email / HTTP utilities
+requests
+
+# Database (recommended for production on Render/PostgreSQL)
+psycopg2-binary
