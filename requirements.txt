@@ -1,4 +1,4 @@
-
+social-auth-app-django
 Django
 gunicorn
 whitenoise
