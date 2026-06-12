@@ -301,8 +301,13 @@ import torch
 
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
-bert_model = BertForSequenceClassification.from_pretrained(
-    'users/saved_emotion_model'
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+MODEL_NAME = "fayazsk942/fayaz-emotion-bert"
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+bert_model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
+bert_model.eval()
 )
 bert_model.eval()
 

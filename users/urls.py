@@ -14,7 +14,7 @@ urlpatterns = [
     path('logout_view',views.logout_view,name='logout_view'),
     path('Deploy',views.Deploy,name='Deploy'),
 
-    path('emotions/', views.emotions, name='emotions'),
+    # path('emotions/', views.emotions, name='emotions'),
     path('bott',views.bott,name='bott'),
     path('chatbot/', views.chatbot_response_view,name='chatbot'),
     path('PredictionDB/', views.PredictionDB, name="PredictionDB"),
