@@ -308,8 +308,8 @@ MODEL_NAME = "fayazsk942/fayaz-emotion-bert"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 bert_model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
 bert_model.eval()
-)
-bert_model.eval()
+
+
 
 
 def Deploy(request):
@@ -500,3 +500,12 @@ def chatbot_response_view(request):
 def bott(request):
     return render(request, 'app/bott.html')
 
+from django.http import JsonResponse
+from transformers import pipeline
+
+emotion_pipeline = pipeline("text-classification", model="fayazsk942/fayaz-emotion-bert")
+
+def predict_emotion(request):
+    text = request.GET.get("text")
+    result = emotion_pipeline(text)
+    return JsonResponse(result, safe=False)
