@@ -1,7 +1,7 @@
 Django>=5.2
 gunicorn
 whitenoise
-
+social-auth-app-django
 # Environment
 python-dotenv
 
