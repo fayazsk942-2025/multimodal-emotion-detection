@@ -19,6 +19,7 @@ urlpatterns = [
     path('chatbot/', views.chatbot_response_view,name='chatbot'),
     path('PredictionDB/', views.PredictionDB, name="PredictionDB"),
     path('emotion_history/', views.emotion_history, name="emotion_history"),
+    path("predict/", views.predict_emotion,name="predict"),
     ]
 
 
